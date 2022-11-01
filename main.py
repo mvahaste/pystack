@@ -47,7 +47,7 @@ screen = pygame.display.set_mode(RESOLUTION)
 pygame.display.set_caption("pyStack")
 clock = pygame.time.Clock()  # Sync FPS
 
-current_box = new_box([0, 0], [150, 20], 1)
+current_box = new_box([0, 0], [150, 20], 3)
 
 tower = []
 
@@ -69,13 +69,16 @@ while True:
                     last_last_left = last_last_box.pos[0]
                     last_last_right = last_last_box.pos[0] + last_last_box.size[0]
 
-                    if last_left <= last_last_left:
-                        last_left = last_last_left
-                    elif last_left 
+                    if last_left < last_last_left:
+                        last_box.pos[0] = last_last_box.pos[0]
+                        last_box.size[0] -= last_last_right - last_right
 
-                    print(f"LAST BOX: X1 {last_left} X2 {last_right}\nLAST LAST BOX: X1 {last_last_left} X2 {last_last_right}")
+                    elif last_right > last_last_right:
+                        last_box.size[0] -= last_right - last_last_right
 
-                current_box = new_box([0, len(tower) * 20], [150, 20], 1)
+                    current_box = new_box([0, len(tower) * 20], tower[-1].size, 3)
+                else:
+                    current_box = new_box([0, len(tower) * 20], [150, 20], 3)
 
         if event.type == pygame.QUIT:
             pygame.quit()
