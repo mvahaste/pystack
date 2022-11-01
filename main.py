@@ -57,28 +57,32 @@ while True:
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
             if event.key == 32:
-                tower.append(current_box)
-
                 if len(tower) > 1:
+                    last_box = 0
                     last_box = tower[-1]
-                    last_last_box = tower[-2]
+
+                    current_left = current_box.pos[0]
+                    current_right = current_box.pos[0] + current_box.size[0]
 
                     last_left = last_box.pos[0]
                     last_right = last_box.pos[0] + last_box.size[0]
 
-                    last_last_left = last_last_box.pos[0]
-                    last_last_right = last_last_box.pos[0] + last_last_box.size[0]
+                    if current_left < last_left:
+                        current_box.pos[0] = last_box.pos[0]
+                        current_box.size[0] -= last_right - current_right
 
-                    if last_left < last_last_left:
-                        last_box.pos[0] = last_last_box.pos[0]
-                        last_box.size[0] -= last_last_right - last_right
+                    elif current_right > last_right:
+                        current_box.size[0] -= current_right - last_right
 
-                    elif last_right > last_last_right:
-                        last_box.size[0] -= last_right - last_last_right
+                    tower.append(current_box)
 
                     current_box = new_box([0, len(tower) * 20], tower[-1].size, 3)
                 else:
+                    tower.append(current_box)
+
                     current_box = new_box([0, len(tower) * 20], [150, 20], 3)
+
+                print([box.size[0] for box in tower])
 
         if event.type == pygame.QUIT:
             pygame.quit()
