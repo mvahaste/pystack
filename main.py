@@ -1,8 +1,7 @@
-from venv import create
 import pygame
 
 
-def new_box(x: int, y: int, w: int, h: int, speed: int):
+def create_box(x: int, y: int, w: int, h: int, speed: int):
     return Box(x, SCREEN_Y - 50 - y, w, h, speed)
 
 
@@ -55,7 +54,7 @@ tower = []
 for i in range(1, 10):
     tower.append(Box((SCREEN_X / 2) - 120, SCREEN_Y - (30 * i), 240, 30, 1))
 
-player = new_box(0, 0, 240, 30, 5)
+player = create_box(0, 0, 240, 30, 5)
 
 player.y = tower[-1].y - 30
 
