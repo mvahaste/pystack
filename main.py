@@ -38,7 +38,7 @@ GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 
 # ! SELF MADE SFX
-# TODO: win condition, resize box, lose condition, sfx, visuals
+# TODO: resize box, win/lose condition, visuals, sfx
 
 # Initialize pygame and create window
 pygame.init()
