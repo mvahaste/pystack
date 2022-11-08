@@ -39,8 +39,7 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 
-# ! SELF MADE SFX
-# TODO: resize box, win/lose condition, visuals, sfx
+# TODO: random speed, visuals, sfx
 
 # Initialize pygame and create window
 pygame.init()
@@ -49,12 +48,16 @@ screen = pygame.display.set_mode(RESOLUTION)
 pygame.display.set_caption("pyStack")
 clock = pygame.time.Clock()  # Sync FPS
 
-player = new_box(0, 0, 180, 20, 3)
+score = 0
 
 tower = []
 
+for i in range(1, 10):
+    tower.append(Box((SCREEN_X / 2) - 120, SCREEN_Y - (30 * i), 240, 30, 1))
 
-tower.append(Box((SCREEN_X / 2) - 90, player.y + 20, 180, player.h, 1))
+player = new_box(0, 0, 240, 30, 5)
+
+player.y = tower[-1].y - 30
 
 while True:
     clock.tick(FPS)
@@ -78,12 +81,19 @@ while True:
                 elif current_right > last_right:
                     player.w -= current_right - last_right
 
+                if player.w <= 0:
+                    print("You lose!")
+                    pygame.quit()
+
                 tower.append(Box(player.x, player.y, player.w, player.h, 1))
 
-                player.y -= 20
+                for box in tower:
+                    box.y += 30
+
                 player.x = 0
 
-                print([box.w for box in tower])
+                score += 1
+                print(score)
 
         if event.type == pygame.QUIT:
             pygame.quit()
