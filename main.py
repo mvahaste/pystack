@@ -1,20 +1,31 @@
 import pygame
+from random import choice
 
 
-def create_box(x: int, y: int, w: int, h: int, speed: int):
-    return Box(x, SCREEN_Y - 50 - y, w, h, speed)
+def create_box(x: int, y: int, w: int, h: int, speed: int, color: tuple):
+    return Box(x, SCREEN_Y - 50 - y, w, h, speed, color)
+
+
+def gradient_color(color_index=0) -> tuple:
+    color_index += 1
+
+    if color_index > len(COLORS):
+        color_index = 0
+
+    return COLORS[color_index]
 
 
 class Box:
-    def __init__(self, x: int, y: int, w: int, h: int, speed: int):
+    def __init__(self, x: int, y: int, w: int, h: int, speed: int, color: tuple):
         self.x = x
         self.y = y
         self.w = w
         self.h = h
         self.speed = speed
+        self.color = color
 
     def draw(self):
-        pygame.draw.rect(screen, WHITE, pygame.Rect(self.x, self.y, self.w, self.h))
+        pygame.draw.rect(screen, self.color, pygame.Rect(self.x, self.y, self.w, self.h))
 
     def move(self):
         left = self.x
@@ -26,19 +37,54 @@ class Box:
         self.x += self.speed
 
 
+class Colors:
+    def __init__(self) -> None:
+        self.gradient = [
+            (25, 118, 210),
+            (28, 112, 205),
+            (31, 106, 199),
+            (34, 100, 194),
+            (37, 94, 188),
+            (39, 88, 183),
+            (42, 81, 177),
+            (44, 75, 171),
+            (46, 69, 165),
+            (48, 63, 159),
+            (46, 69, 165),
+            (44, 75, 171),
+            (42, 81, 177),
+            (39, 88, 183),
+            (37, 94, 188),
+            (34, 100, 194),
+            (31, 106, 199),
+            (28, 112, 205),
+            (25, 118, 210),
+        ]
+        self.gradient_index = 0
+
+    def gradient_color(self):
+        self.gradient_index += 1
+
+        if self.gradient_index >= len(self.gradient):
+            self.gradient_index = 0
+
+        return self.gradient[self.gradient_index]
+
+
 SCREEN_X = 480
 SCREEN_Y = 640
 RESOLUTION = (SCREEN_X, SCREEN_Y)
 FPS = 60
 
 # Define Colors
+BACKGROUND = (15, 15, 15)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 
-# TODO: random speed, visuals, sfx
+# TODO: visuals, sfx
 
 # Initialize pygame and create window
 pygame.init()
@@ -47,15 +93,18 @@ screen = pygame.display.set_mode(RESOLUTION)
 pygame.display.set_caption("pyStack")
 clock = pygame.time.Clock()  # Sync FPS
 
+color_manager = Colors()
+
 score = 0
 
+# Tower
 tower = []
 
-for i in range(1, 10):
-    tower.append(Box((SCREEN_X / 2) - 120, SCREEN_Y - (30 * i), 240, 30, 1))
+for i in range(1, 11):
+    tower.append(Box((SCREEN_X / 2) - 120, SCREEN_Y - (30 * i), 240, 30, 1, color_manager.gradient_color()))
 
-player = create_box(0, 0, 240, 30, 5)
-
+# Player
+player = create_box(0, 0, 240, 30, 4, color_manager.gradient_color())
 player.y = tower[-1].y - 30
 
 while True:
@@ -84,20 +133,21 @@ while True:
                     print("You lose!")
                     pygame.quit()
 
-                tower.append(Box(player.x, player.y, player.w, player.h, 1))
+                tower.append(Box(player.x, player.y, player.w, player.h, 0, player.color))
 
                 for box in tower:
                     box.y += 30
 
-                player.x = 0
+                player.x = choice([0, SCREEN_X - player.w])
+                player.color = color_manager.gradient_color()
 
                 score += 1
-                print(score)
+                print(f"Score: {score}; Speed: {player.speed}")
 
         if event.type == pygame.QUIT:
             pygame.quit()
 
-    screen.fill(BLACK)
+    screen.fill(BACKGROUND)
 
     player.draw()
     player.move()
