@@ -2,27 +2,29 @@ from venv import create
 import pygame
 
 
-def new_box(pos: list, size: list, speed: int):
-    return Box([pos[0], SCREEN_Y - 50 - pos[1]], size, speed)
+def new_box(x: int, y: int, w: int, h: int, speed: int):
+    return Box(x, SCREEN_Y - 50 - y, w, h, speed)
 
 
 class Box:
-    def __init__(self, pos, size, speed):
-        self.pos = pos
-        self.size = size
+    def __init__(self, x: int, y: int, w: int, h: int, speed: int):
+        self.x = x
+        self.y = y
+        self.w = w
+        self.h = h
         self.speed = speed
 
     def draw(self):
-        pygame.draw.rect(screen, WHITE, pygame.Rect(self.pos[0], self.pos[1], self.size[0], self.size[1]))
+        pygame.draw.rect(screen, WHITE, pygame.Rect(self.x, self.y, self.w, self.h))
 
     def move(self):
-        left = self.pos[0]
-        right = self.pos[0] + self.size[0]
+        left = self.x
+        right = self.x + self.w
 
         if left < 0 or right > SCREEN_X:
             self.speed *= -1
 
-        self.pos[0] += self.speed
+        self.x += self.speed
 
 
 SCREEN_X = 480
@@ -47,50 +49,49 @@ screen = pygame.display.set_mode(RESOLUTION)
 pygame.display.set_caption("pyStack")
 clock = pygame.time.Clock()  # Sync FPS
 
-current_box = new_box([0, 0], [150, 20], 3)
+player = new_box(0, 0, 180, 20, 3)
 
 tower = []
 
+
+tower.append(Box((SCREEN_X / 2) - 90, player.y + 20, 180, player.h, 1))
 
 while True:
     clock.tick(FPS)
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
             if event.key == 32:
-                if len(tower) > 1:
-                    last_box = 0
-                    last_box = tower[-1]
+                last_box = tower[-1]
 
-                    current_left = current_box.pos[0]
-                    current_right = current_box.pos[0] + current_box.size[0]
+                current_left = player.x
+                current_right = player.x + player.w
 
-                    last_left = last_box.pos[0]
-                    last_right = last_box.pos[0] + last_box.size[0]
+                last_left = last_box.x
+                last_right = last_box.x + last_box.w
 
-                    if current_left < last_left:
-                        current_box.pos[0] = last_box.pos[0]
-                        current_box.size[0] -= last_right - current_right
+                # * Overlap left
+                if current_left < last_left:
+                    player.x = last_box.x
+                    player.w -= last_right - current_right
 
-                    elif current_right > last_right:
-                        current_box.size[0] -= current_right - last_right
+                # * Overlap right
+                elif current_right > last_right:
+                    player.w -= current_right - last_right
 
-                    tower.append(current_box)
+                tower.append(Box(player.x, player.y, player.w, player.h, 1))
 
-                    current_box = new_box([0, len(tower) * 20], tower[-1].size, 3)
-                else:
-                    tower.append(current_box)
+                player.y -= 20
+                player.x = 0
 
-                    current_box = new_box([0, len(tower) * 20], [150, 20], 3)
-
-                print([box.size[0] for box in tower])
+                print([box.w for box in tower])
 
         if event.type == pygame.QUIT:
             pygame.quit()
 
     screen.fill(BLACK)
 
-    current_box.draw()
-    current_box.move()
+    player.draw()
+    player.move()
 
     for box in tower:
         box.draw()
