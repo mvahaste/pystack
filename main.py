@@ -1,5 +1,6 @@
 from venv import create
 import pygame
+import pygame.freetype 
 
 
 def new_box(x: int, y: int, w: int, h: int, speed: int):
@@ -49,6 +50,8 @@ screen = pygame.display.set_mode(RESOLUTION)
 pygame.display.set_caption("pyStack")
 clock = pygame.time.Clock()  # Sync FPS
 
+my_font = pygame.font.SysFont('Comic Sans MS', 30)
+
 player = new_box(0, 0, 180, 20, 3)
 
 tower = []
@@ -84,7 +87,9 @@ while True:
                 player.x = 0
 
                 print([box.w for box in tower])
-
+        score = len(tower)
+        text_surface = my_font.render(f'Score {score}', False, (255, 255, 255))
+        text_rect = text_surface.get_rect(center=(SCREEN_X/2, 20))
         if event.type == pygame.QUIT:
             pygame.quit()
 
@@ -95,5 +100,6 @@ while True:
 
     for box in tower:
         box.draw()
-
+    
+    screen.blit(text_surface, text_rect)
     pygame.display.flip()
