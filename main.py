@@ -53,6 +53,7 @@ class Colors:
             (28, 112, 205),
             (25, 118, 210),
         ]
+
         self.gradient_index = 0
 
     def gradient_color(self):
