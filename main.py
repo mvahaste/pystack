@@ -6,15 +6,6 @@ def create_box(x: int, y: int, w: int, h: int, speed: int, color: tuple):
     return Box(x, SCREEN_Y - 50 - y, w, h, speed, color)
 
 
-def gradient_color(color_index=0) -> tuple:
-    color_index += 1
-
-    if color_index > len(COLORS):
-        color_index = 0
-
-    return COLORS[color_index]
-
-
 class Box:
     def __init__(self, x: int, y: int, w: int, h: int, speed: int, color: tuple):
         self.x = x
