@@ -7,7 +7,7 @@ def create_box(x: int, y: int, w: int, h: int, speed: int, color: tuple):
 
 
 class Box:
-    def __init__(self, x: int, y: int, w: int, h: int, speed: int, color: tuple):
+    def __init__(self, x: int, y: int, w: int, h: int, speed: int, color: tuple) -> None:
         self.x = x
         self.y = y
         self.w = w
@@ -15,10 +15,10 @@ class Box:
         self.speed = speed
         self.color = color
 
-    def draw(self):
+    def draw(self) -> None:
         pygame.draw.rect(screen, self.color, pygame.Rect(self.x, self.y, self.w, self.h))
 
-    def move(self):
+    def move(self) -> None:
         left = self.x
         right = self.x + self.w
 
@@ -56,7 +56,7 @@ class Colors:
 
         self.gradient_index = 0
 
-    def gradient_color(self):
+    def gradient_color(self) -> tuple:
         self.gradient_index += 1
 
         if self.gradient_index >= len(self.gradient):
