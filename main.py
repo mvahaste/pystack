@@ -82,6 +82,7 @@ FPS = 120
 # Initialize pygame and create window
 pygame.init()
 pygame.mixer.init()  # Sound
+pygame.mixer.music.set_volume(0.75)
 screen = pygame.display.set_mode(RESOLUTION)
 pygame.display.set_caption("pyStack")
 clock = pygame.time.Clock()  # Sync FPS
