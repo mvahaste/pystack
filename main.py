@@ -12,8 +12,9 @@ class Box:
 
     def draw(self) -> None:
         """Draws the box on the screen"""
-        self.image = pygame.transform.scale(brick_img, (self.w, self.h))
-        screen.blit(self.image, (self.x, self.y))
+        # Wrapped values in int() to fix a bug
+        self.image = pygame.transform.scale(brick_img, (int(self.w), int(self.h)))
+        screen.blit(self.image, (int(self.x), int(self.y)))
 
     def move(self) -> None:
         """Moves the box"""
@@ -167,9 +168,9 @@ while True:
 
                         # Set the speed to the correct direction so the box doesn't bounce the instant it spawns
                         if player.x == 0:
-                            player.speed = 2 + (score / 5)
+                            player.speed = 2 + (score / 10)
                         elif player.x == SCREEN_X - player.w:
-                            player.speed = -2 - (score / 5)
+                            player.speed = -2 - (score / 10)
 
                         score += 1
 
@@ -194,6 +195,8 @@ while True:
 
     for box in tower:
         box.draw()
+
+    print(player.speed)
 
     if status == "lost":
         if retry_button.draw():
