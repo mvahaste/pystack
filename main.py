@@ -64,7 +64,7 @@ def create_box(x: int, y: int, w: int, h: int, speed: int) -> Box:
 SCREEN_X = 480
 SCREEN_Y = 640
 RESOLUTION = (SCREEN_X, SCREEN_Y)
-FPS = 240
+FPS = 120
 
 # Initialize pygame and create window
 pygame.init()
@@ -82,7 +82,7 @@ bounce_sound = pygame.mixer.Sound("bounce.wav")
 bounce_sound.set_volume(0.25)
 
 # Load images
-brick_img = pygame.image.load("brick.png").convert()
+brick_img = pygame.image.load("brick.jpg").convert()
 
 retry_img = pygame.image.load("retry.png").convert_alpha()
 retry_hover = pygame.image.load("retry_hover.png").convert_alpha()
@@ -105,13 +105,16 @@ for i in range(1, 11):
     tower.append(Box((SCREEN_X / 2) - 120, SCREEN_Y - (30 * i), 240, 30, 1))
 
 
-# Score setup
+# Text setup
 score_font = pygame.font.Font("LCDMono2.ttf", 60)
+fps_font = pygame.font.Font("LCDMono2.ttf", 20)
+
+# Score and game state
 score = 0
 status = "playing"
 
 # Player setup
-player = create_box(0, 0, 240, 30, 1)
+player = create_box(0, 0, 240, 30, 2)
 player.y = tower[-1].y - 30
 
 # God mode easter egg / debug, activate by pressing 'G'
@@ -164,9 +167,9 @@ while True:
 
                         # Set the speed to the correct direction so the box doesn't bounce the instant it spawns
                         if player.x == 0:
-                            player.speed = 1 + (score / 5)
+                            player.speed = 2 + (score / 5)
                         elif player.x == SCREEN_X - player.w:
-                            player.speed = -1 - (score / 5)
+                            player.speed = -2 - (score / 5)
 
                         score += 1
 
@@ -180,6 +183,10 @@ while True:
     # Draw the score
     text_surface = score_font.render(str(score), True, (255, 255, 255))
     screen.blit(text_surface, (SCREEN_X / 2 - text_surface.get_width() / 2, 50))
+
+    # Draw FPS
+    fps_text = fps_font.render("FPS: " + str(int(clock.get_fps())), True, (255, 255, 255))
+    screen.blit(fps_text, (SCREEN_X - fps_text.get_width() - 10, 10))
 
     if status == "playing":
         player.draw()
@@ -197,7 +204,7 @@ while True:
             for i in range(1, 11):
                 tower.append(Box((SCREEN_X / 2) - 120, SCREEN_Y - (30 * i), 240, 30, 1))
 
-            player = create_box(0, 0, 240, 30, 4)
+            player = create_box(0, 0, 240, 30, 2)
             player.y = tower[-1].y - 30
             bg_y = -640 * 2
             score = 0
