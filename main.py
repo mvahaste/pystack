@@ -137,6 +137,8 @@ player.y = tower[-1].y - 30
 # God mode easter egg / debug, activate by pressing 'G'
 god_mode = False
 
+print("Game started\nPress G for god mode")
+
 suspensful_music()
 
 # Game loop
