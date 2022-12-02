@@ -67,23 +67,27 @@ class Colors:
 
 
 class Button:
-    def __init__(self, x, y, image) -> None:
+    def __init__(self, x, y, image, hover_image) -> None:
         self.image = pygame.transform.scale(
-            image, (int(image.get_width()*0.4), int(image.get_height()*0.4)))
+            image, (int(image.get_width()*0.6), int(image.get_height()*0.6)))
+        self.hover = pygame.transform.scale(
+            hover_image, (int(hover_image.get_width()*0.6), int(hover_image.get_height()*0.6)))
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
         self.pressed = False
 
     def draw(self):
         mouse_pos = pygame.mouse.get_pos()
-        print(mouse_pos)
+        image = self.image
+
         if self.rect.collidepoint(mouse_pos):
+            image = self.hover
             if pygame.mouse.get_pressed()[0]:
                 self.pressed = True
         if pygame.mouse.get_pressed()[0] == 0:
             self.pressed = False
 
-        screen.blit(self.image, (self.rect.x, self.rect.y))
+        screen.blit(image, (self.rect.x, self.rect.y))
 
         return self.pressed
 
@@ -121,15 +125,17 @@ score = 0
 status = "playing"
 
 retry_img = pygame.image.load('retry.png').convert_alpha()
-exit_img = pygame.image.load('retry.png').convert_alpha()
+retry_hover = pygame.image.load('retry_hover.png').convert_alpha()
+exit_img = pygame.image.load('quit.png').convert_alpha()
+exit_hover = pygame.image.load('quit_hover.png').convert_alpha()
 
-retry_button = Button(40, 500, retry_img)
-exit_button = Button(240, 500, exit_img)
+retry_button = Button(50, 550, retry_img, retry_hover)
+exit_button = Button(250, 550, exit_img, exit_hover)
 
 # Tower
 tower = []
 
-score_font = pygame.font.SysFont('Arial', 50)
+score_font = pygame.font.SysFont('LCDMono2', 60)
 
 for i in range(1, 11):
     tower.append(Box((SCREEN_X / 2) - 120, SCREEN_Y - (30 * i),
@@ -214,7 +220,7 @@ while True:
 
     text_surface = score_font.render(
         str(score), False, (255, 255, 255))
-    screen.blit(text_surface, (240-text_surface.get_width(), 50))
+    screen.blit(text_surface, (SCREEN_X/2-text_surface.get_width()/2, 50))
 
     if retry_button.draw():
         # Reset the game
