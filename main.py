@@ -63,13 +63,13 @@ def create_box(x: int, y: int, w: int, h: int, speed: int) -> Box:
 
 def happy_music() -> None:
     """Plays happy music"""
-    pygame.mixer.music.load("happy.wav")
+    pygame.mixer.music.load("audio/happy.wav")
     pygame.mixer.music.play(-1)
 
 
 def suspensful_music() -> None:
     """Plays suspensful music"""
-    pygame.mixer.music.load("suspense.wav")
+    pygame.mixer.music.load("audio/suspense.wav")
     pygame.mixer.music.play(-1)
 
 
@@ -84,31 +84,31 @@ pygame.init()
 pygame.mixer.init()  # Sound
 pygame.mixer.music.set_volume(0.65)
 screen = pygame.display.set_mode(RESOLUTION)
-pygame.display.set_caption("pyStack")
+pygame.display.set_caption("pystack")
 clock = pygame.time.Clock()  # Sync FPS
 
 # Load sound effects
-place_sound = pygame.mixer.Sound("place.wav")
+place_sound = pygame.mixer.Sound("audio/place.wav")
 place_sound.set_volume(0.25)
-loss_sound = pygame.mixer.Sound("loss.wav")
+loss_sound = pygame.mixer.Sound("audio/loss.wav")
 loss_sound.set_volume(0.25)
-bounce_sound = pygame.mixer.Sound("bounce.wav")
+bounce_sound = pygame.mixer.Sound("audio/bounce.wav")
 bounce_sound.set_volume(0.25)
-god_mode_sound_on = pygame.mixer.Sound("god_mode_on.wav")
+god_mode_sound_on = pygame.mixer.Sound("audio/god_mode_on.wav")
 god_mode_sound_on.set_volume(0.25)
-god_mode_sound_off = pygame.mixer.Sound("god_mode_off.wav")
+god_mode_sound_off = pygame.mixer.Sound("audio/god_mode_off.wav")
 god_mode_sound_off.set_volume(0.25)
 
 # Load images
-brick_img = pygame.image.load("brick.jpg").convert()
+brick_img = pygame.image.load("images/brick.jpg").convert()
 
-retry_img = pygame.image.load("retry.png").convert_alpha()
-retry_hover = pygame.image.load("retry_hover.png").convert_alpha()
+retry_img = pygame.image.load("images/retry.png").convert_alpha()
+retry_hover = pygame.image.load("images/retry_hover.png").convert_alpha()
 
-exit_img = pygame.image.load("quit.png").convert_alpha()
-exit_hover = pygame.image.load("quit_hover.png").convert_alpha()
+exit_img = pygame.image.load("images/quit.png").convert_alpha()
+exit_hover = pygame.image.load("images/quit_hover.png").convert_alpha()
 
-bg_img = pygame.image.load("background.jpg")
+bg_img = pygame.image.load("images/background.jpg")
 # Offset for the background image
 bg_y = -640 * 2
 
@@ -124,8 +124,8 @@ for i in range(1, 11):
 
 
 # Text setup
-score_font = pygame.font.Font("LCDMono2.ttf", 60)
-fps_font = pygame.font.Font("LCDMono2.ttf", 20)
+score_font = pygame.font.Font("fonts/LCDMono2.ttf", 60)
+fps_font = pygame.font.Font("fonts/LCDMono2.ttf", 20)
 
 # Score and game state
 score = 0
