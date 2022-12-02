@@ -61,6 +61,18 @@ def create_box(x: int, y: int, w: int, h: int, speed: int) -> Box:
     return Box(x, SCREEN_Y - 50 - y, w, h, speed)
 
 
+def happy_music() -> None:
+    """Plays happy music"""
+    pygame.mixer.music.load("happy.wav")
+    pygame.mixer.music.play(-1)
+
+
+def suspensful_music() -> None:
+    """Plays suspensful music"""
+    pygame.mixer.music.load("suspense.wav")
+    pygame.mixer.music.play(-1)
+
+
 # Set constant variables
 SCREEN_X = 480
 SCREEN_Y = 640
@@ -81,6 +93,10 @@ loss_sound = pygame.mixer.Sound("loss.wav")
 loss_sound.set_volume(0.25)
 bounce_sound = pygame.mixer.Sound("bounce.wav")
 bounce_sound.set_volume(0.25)
+god_mode_sound_on = pygame.mixer.Sound("god_mode_on.wav")
+god_mode_sound_on.set_volume(0.25)
+god_mode_sound_off = pygame.mixer.Sound("god_mode_off.wav")
+god_mode_sound_off.set_volume(0.25)
 
 # Load images
 brick_img = pygame.image.load("brick.jpg").convert()
@@ -121,6 +137,8 @@ player.y = tower[-1].y - 30
 # God mode easter egg / debug, activate by pressing 'G'
 god_mode = False
 
+suspensful_music()
+
 # Game loop
 while True:
     clock.tick(FPS)
@@ -129,6 +147,12 @@ while True:
             if event.key == 103:
                 god_mode = not god_mode
                 print("God mode: " + str(god_mode))
+                if god_mode:
+                    god_mode_sound_on.play()
+                    happy_music()
+                else:
+                    god_mode_sound_off.play()
+                    suspensful_music()
             if event.key == 32:
                 if status == "playing":
                     last_box = tower[-1]
@@ -195,8 +219,6 @@ while True:
 
     for box in tower:
         box.draw()
-
-    print(player.speed)
 
     if status == "lost":
         if retry_button.draw():
