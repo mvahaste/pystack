@@ -125,7 +125,7 @@ exit_button = Button(250, 550, exit_img, exit_hover)
 # Tower
 tower = []
 
-score_font = pygame.font.SysFont("LCDMono2", 60)
+score_font = pygame.font.Font("LCDMono2.ttf", 60)
 
 for i in range(1, 11):
     tower.append(Box((SCREEN_X / 2) - 120, SCREEN_Y - (30 * i), 240, 30, 1, color_manager.gradient_color()))
