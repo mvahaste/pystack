@@ -33,16 +33,17 @@ class Box:
 class Colors:
     def __init__(self) -> None:
         self.gradient = [
-            (156, 79, 150),
-            (255, 99, 85),
-            (251, 169, 73),
-            (250, 228, 66),
-            (139, 212, 72),
-            (42, 168, 242),
-            (139, 212, 72),
-            (250, 228, 66),
-            (251, 169, 73),
-            (255, 99, 85),
+            # (156, 79, 150),
+            # (255, 99, 85),
+            # (251, 169, 73),
+            # (250, 228, 66),
+            # (139, 212, 72),
+            # (42, 168, 242),
+            # (139, 212, 72),
+            # (250, 228, 66),
+            # (251, 169, 73),
+            # (255, 99, 85),
+            (255, 255, 255)
         ]
 
         self.gradient_index = 0
@@ -181,17 +182,6 @@ while True:
 
                     score += 1
                     print(f"Score: {score}; Speed: {player.speed}")
-                elif status == "lost":
-                    # Reset the game
-                    status = "playing"
-                    tower = []
-
-                    for i in range(1, 11):
-                        tower.append(Box((SCREEN_X / 2) - 120, SCREEN_Y - (30 * i), 240, 30, 1, color_manager.gradient_color()))
-
-                    player = create_box(0, 0, 240, 30, 4, color_manager.gradient_color())
-                    player.y = tower[-1].y - 30
-                    score = 0
 
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -205,23 +195,24 @@ while True:
     for box in tower:
         box.draw()
 
-    text_surface = score_font.render(str(score), False, (255, 255, 255))
+    text_surface = score_font.render(str(score), True, (255, 255, 255))
 
     screen.blit(text_surface, (SCREEN_X / 2 - text_surface.get_width() / 2, 50))
 
-    if retry_button.draw():
-        # Reset the game
-        status = "playing"
-        tower = []
+    if status == "lost":
+        if retry_button.draw():
+            # Reset the game
+            status = "playing"
+            tower = []
 
-        for i in range(1, 11):
-            tower.append(Box((SCREEN_X / 2) - 120, SCREEN_Y - (30 * i), 240, 30, 1, color_manager.gradient_color()))
+            for i in range(1, 11):
+                tower.append(Box((SCREEN_X / 2) - 120, SCREEN_Y - (30 * i), 240, 30, 1, color_manager.gradient_color()))
 
-        player = create_box(0, 0, 240, 30, 4, color_manager.gradient_color())
-        player.y = tower[-1].y - 30
-        score = 0
+            player = create_box(0, 0, 240, 30, 4, color_manager.gradient_color())
+            player.y = tower[-1].y - 30
+            score = 0
 
-    if exit_button.draw():
-        pygame.quit()
+        if exit_button.draw():
+            pygame.quit()
 
     pygame.display.flip()
