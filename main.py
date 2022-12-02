@@ -154,7 +154,7 @@ while True:
         if event.type == pygame.KEYDOWN:
             if event.key == 103:
                 god_mode = not god_mode
-                print("God mode: " + str(god_mode))
+                print("God mode: " + str(god_mode) + " \U0001F607") if god_mode else print("God mode: " + str(god_mode) + " \U0001F62D")
                 if god_mode:
                     god_mode_sound_on.play()
                     happy()
