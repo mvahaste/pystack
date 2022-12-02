@@ -61,16 +61,20 @@ def create_box(x: int, y: int, w: int, h: int, speed: int) -> Box:
     return Box(x, SCREEN_Y - 50 - y, w, h, speed)
 
 
-def happy_music() -> None:
+def happy() -> None:
     """Plays happy music"""
     pygame.mixer.music.load("audio/happy.wav")
     pygame.mixer.music.play(-1)
+    pygame.display.set_icon(pygame.image.load("images/happy_icon.png"))
+    pygame.display.set_caption("stack game but python :D")
 
 
-def suspensful_music() -> None:
+def suspense() -> None:
     """Plays suspensful music"""
     pygame.mixer.music.load("audio/suspense.wav")
     pygame.mixer.music.play(-1)
+    pygame.display.set_icon(pygame.image.load("images/suspense_icon.png"))
+    pygame.display.set_caption("stack game but python :C")
 
 
 # Set constant variables
@@ -86,6 +90,7 @@ pygame.mixer.music.set_volume(0.65)
 screen = pygame.display.set_mode(RESOLUTION)
 pygame.display.set_caption("pystack")
 clock = pygame.time.Clock()  # Sync FPS
+pygame.display.set_icon(pygame.image.load("images/suspense_icon.png"))  # Use custom icon
 
 # Load sound effects
 place_sound = pygame.mixer.Sound("audio/place.wav")
@@ -140,7 +145,7 @@ god_mode = False
 
 print("Game started\nPress G for god mode")
 
-suspensful_music()
+suspense()
 
 # Game loop
 while True:
@@ -152,10 +157,10 @@ while True:
                 print("God mode: " + str(god_mode))
                 if god_mode:
                     god_mode_sound_on.play()
-                    happy_music()
+                    happy()
                 else:
                     god_mode_sound_off.play()
-                    suspensful_music()
+                    suspense()
             if event.key == 32:
                 if status == "playing":
                     last_box = tower[-1]
