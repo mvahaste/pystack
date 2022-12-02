@@ -58,10 +58,8 @@ class Colors:
 
 class Button:
     def __init__(self, x, y, image, hover_image) -> None:
-        self.image = pygame.transform.scale(
-            image, (int(image.get_width()*0.6), int(image.get_height()*0.6)))
-        self.hover = pygame.transform.scale(
-            hover_image, (int(hover_image.get_width()*0.6), int(hover_image.get_height()*0.6)))
+        self.image = pygame.transform.scale(image, (int(image.get_width() * 0.6), int(image.get_height() * 0.6)))
+        self.hover = pygame.transform.scale(hover_image, (int(hover_image.get_width() * 0.6), int(hover_image.get_height() * 0.6)))
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
         self.pressed = False
@@ -116,10 +114,10 @@ score = 0
 
 status = "playing"
 
-retry_img = pygame.image.load('retry.png').convert_alpha()
-retry_hover = pygame.image.load('retry_hover.png').convert_alpha()
-exit_img = pygame.image.load('quit.png').convert_alpha()
-exit_hover = pygame.image.load('quit_hover.png').convert_alpha()
+retry_img = pygame.image.load("retry.png").convert_alpha()
+retry_hover = pygame.image.load("retry_hover.png").convert_alpha()
+exit_img = pygame.image.load("quit.png").convert_alpha()
+exit_hover = pygame.image.load("quit_hover.png").convert_alpha()
 
 retry_button = Button(50, 550, retry_img, retry_hover)
 exit_button = Button(250, 550, exit_img, exit_hover)
@@ -127,11 +125,10 @@ exit_button = Button(250, 550, exit_img, exit_hover)
 # Tower
 tower = []
 
-score_font = pygame.font.SysFont('LCDMono2', 60)
+score_font = pygame.font.SysFont("LCDMono2", 60)
 
 for i in range(1, 11):
-    tower.append(Box((SCREEN_X / 2) - 120, SCREEN_Y - (30 * i),
-                 240, 30, 1, color_manager.gradient_color()))
+    tower.append(Box((SCREEN_X / 2) - 120, SCREEN_Y - (30 * i), 240, 30, 1, color_manager.gradient_color()))
 
 # Player
 player = create_box(0, 0, 240, 30, 4, color_manager.gradient_color())
@@ -166,8 +163,7 @@ while True:
                     else:
                         place_sound.play()
 
-                    tower.append(Box(player.x, player.y, player.w,
-                                 player.h, 0, player.color))
+                    tower.append(Box(player.x, player.y, player.w, player.h, 0, player.color))
 
                     for box in tower:
                         box.y += 30
@@ -177,9 +173,9 @@ while True:
 
                     # Set the speed to the correct direction so the box doesn't bounce the instant it spawns
                     if player.x == 0:
-                        player.speed = 4
+                        player.speed = 4 + (score / 5)
                     elif player.x == SCREEN_X - player.w:
-                        player.speed = -4
+                        player.speed = -4 - (score / 5)
 
                     player.color = color_manager.gradient_color()
 
@@ -191,11 +187,9 @@ while True:
                     tower = []
 
                     for i in range(1, 11):
-                        tower.append(Box((SCREEN_X / 2) - 120, SCREEN_Y -
-                                     (30 * i), 240, 30, 1, color_manager.gradient_color()))
+                        tower.append(Box((SCREEN_X / 2) - 120, SCREEN_Y - (30 * i), 240, 30, 1, color_manager.gradient_color()))
 
-                    player = create_box(
-                        0, 0, 240, 30, 4, color_manager.gradient_color())
+                    player = create_box(0, 0, 240, 30, 4, color_manager.gradient_color())
                     player.y = tower[-1].y - 30
                     score = 0
 
@@ -211,9 +205,9 @@ while True:
     for box in tower:
         box.draw()
 
-    text_surface = score_font.render(
-        str(score), False, (255, 255, 255))
-    screen.blit(text_surface, (SCREEN_X/2-text_surface.get_width()/2, 50))
+    text_surface = score_font.render(str(score), False, (255, 255, 255))
+
+    screen.blit(text_surface, (SCREEN_X / 2 - text_surface.get_width() / 2, 50))
 
     if retry_button.draw():
         # Reset the game
@@ -221,11 +215,9 @@ while True:
         tower = []
 
         for i in range(1, 11):
-            tower.append(Box((SCREEN_X / 2) - 120, SCREEN_Y -
-                             (30 * i), 240, 30, 1, color_manager.gradient_color()))
+            tower.append(Box((SCREEN_X / 2) - 120, SCREEN_Y - (30 * i), 240, 30, 1, color_manager.gradient_color()))
 
-        player = create_box(
-            0, 0, 240, 30, 4, color_manager.gradient_color())
+        player = create_box(0, 0, 240, 30, 4, color_manager.gradient_color())
         player.y = tower[-1].y - 30
         score = 0
 
