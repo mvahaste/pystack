@@ -16,7 +16,7 @@ class Box:
         self.color = color
 
     def draw(self) -> None:
-        pygame.draw.rect(screen, self.color, pygame.Rect(self.x, self.y, self.w, self.h))
+        pygame.draw.rect(screen, self.color, pygame.Rect(self.x, self.y, self.w, self.h), 1)
 
     def move(self) -> None:
         left = self.x
@@ -33,25 +33,16 @@ class Box:
 class Colors:
     def __init__(self) -> None:
         self.gradient = [
-            (25, 118, 210),
-            (28, 112, 205),
-            (31, 106, 199),
-            (34, 100, 194),
-            (37, 94, 188),
-            (39, 88, 183),
-            (42, 81, 177),
-            (44, 75, 171),
-            (46, 69, 165),
-            (48, 63, 159),
-            (46, 69, 165),
-            (44, 75, 171),
-            (42, 81, 177),
-            (39, 88, 183),
-            (37, 94, 188),
-            (34, 100, 194),
-            (31, 106, 199),
-            (28, 112, 205),
-            (25, 118, 210),
+            (156, 79, 150),
+            (255, 99, 85),
+            (251, 169, 73),
+            (250, 228, 66),
+            (139, 212, 72),
+            (42, 168, 242),
+            (139, 212, 72),
+            (250, 228, 66),
+            (251, 169, 73),
+            (255, 99, 85),
         ]
 
         self.gradient_index = 0
@@ -71,7 +62,6 @@ RESOLUTION = (SCREEN_X, SCREEN_Y)
 FPS = 60
 
 # Define Colors
-BACKGROUND = (15, 15, 15)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
@@ -88,8 +78,11 @@ pygame.display.set_caption("pyStack")
 clock = pygame.time.Clock()  # Sync FPS
 
 place_sound = pygame.mixer.Sound("place.wav")
+place_sound.set_volume(0.25)
 loss_sound = pygame.mixer.Sound("loss.wav")
+loss_sound.set_volume(0.25)
 bounce_sound = pygame.mixer.Sound("bounce.wav")
+bounce_sound.set_volume(0.25)
 
 color_manager = Colors()
 
@@ -169,10 +162,11 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
 
-    screen.fill(BACKGROUND)
+    screen.fill(BLACK)
 
-    player.draw()
-    player.move()
+    if status == "playing":
+        player.draw()
+        player.move()
 
     for box in tower:
         box.draw()
