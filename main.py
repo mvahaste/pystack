@@ -113,9 +113,8 @@ retry_hover = pygame.image.load("images/retry_hover.png").convert_alpha()
 exit_img = pygame.image.load("images/quit.png").convert_alpha()
 exit_hover = pygame.image.load("images/quit_hover.png").convert_alpha()
 
-bg_img = pygame.image.load("images/background.jpg")
-# Offset for the background image
-bg_y = -640 * 2
+bg_img = pygame.image.load("images/background.jpg").convert()
+bg_y = -640 * 2  # Offset for the background image
 
 # Create buttons
 retry_button = Button(50, 550, retry_img, retry_hover)
