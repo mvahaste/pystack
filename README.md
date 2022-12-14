@@ -1,6 +1,6 @@
 # pystack
 
-## Kasutatud vahendid
+## Kasutatud vahendid/materjalid
 
 -  [vscode](https://code.visualstudio.com/)
 -  [pygame](https://www.pygame.org/news)
