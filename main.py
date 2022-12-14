@@ -86,7 +86,7 @@ FPS = 120
 # Initialize pygame and create window
 pygame.init()
 pygame.mixer.init()  # Sound
-pygame.mixer.music.set_volume(0.65)
+pygame.mixer.music.set_volume(0.25)
 screen = pygame.display.set_mode(RESOLUTION)
 pygame.display.set_caption("pystack")
 clock = pygame.time.Clock()  # Sync FPS
@@ -172,8 +172,8 @@ while True:
                     last_left = last_box.x
                     last_right = last_box.x + last_box.w
 
-                    # Overlap left
                     if not god_mode:
+                        # Overlap left
                         if current_left < last_left:
                             player.x = last_box.x
                             player.w -= last_right - current_right
