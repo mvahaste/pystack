@@ -86,7 +86,7 @@ FPS = 120
 # Initialize pygame and create window
 pygame.init()
 pygame.mixer.init()  # Sound
-pygame.mixer.music.set_volume(0.65)
+pygame.mixer.music.set_volume(0.25)
 screen = pygame.display.set_mode(RESOLUTION)
 pygame.display.set_caption("pystack")
 clock = pygame.time.Clock()  # Sync FPS
@@ -113,9 +113,8 @@ retry_hover = pygame.image.load("images/retry_hover.png").convert_alpha()
 exit_img = pygame.image.load("images/quit.png").convert_alpha()
 exit_hover = pygame.image.load("images/quit_hover.png").convert_alpha()
 
-bg_img = pygame.image.load("images/background.jpg")
-# Offset for the background image
-bg_y = -640 * 2
+bg_img = pygame.image.load("images/background.jpg").convert()
+bg_y = -640 * 2  # Offset for the background image
 
 # Create buttons
 retry_button = Button(50, 550, retry_img, retry_hover)
@@ -172,8 +171,8 @@ while True:
                     last_left = last_box.x
                     last_right = last_box.x + last_box.w
 
-                    # Overlap left
                     if not god_mode:
+                        # Overlap left
                         if current_left < last_left:
                             player.x = last_box.x
                             player.w -= last_right - current_right
